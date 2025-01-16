@@ -17,8 +17,10 @@ The **Patient Dashboard** Next.js application serves as the frontend of the heal
 - **Framework**: Next.js
 - **Frontend**: Next.js, TailwindCSS
 - **Backend**: Next.js
+- **Database**: MongoDB
 - **Libraries**: 
   - Axios (HTTP requests)
+  - Mongoose (Database Connection)
   - React Chart.js (data visualization)
   - Zod (schema validation)
   - Socket.IO (Web Sockets)
