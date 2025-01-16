@@ -21,6 +21,7 @@ The **Patient Dashboard** Next.js application serves as the frontend of the heal
   - Axios (HTTP requests)
   - React Chart.js (data visualization)
   - Zod (schema validation)
+  - Socket.IO (Web Sockets)
 
 ---
 
