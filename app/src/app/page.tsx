@@ -75,6 +75,7 @@ const AdminLoginPage: React.FC = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
             />
           </div>
+          <div>Password is : admin123</div>
 
           {/* Password Field */}
           <div className="mb-4">
