@@ -90,7 +90,7 @@ const PatientLoginPage: React.FC = () => {
               </button>
             </div>
           </div>
-        <div>Demo Room Number : 54</div>
+        <div className="text-centre pb-4 ">Demo Room Number : 54</div>
        
           {/* Login Button */}
           <button
