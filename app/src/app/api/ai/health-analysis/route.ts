@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ✅ Build entries safely
+    // ✅ Build entries
     const entries = healthMetrics
       .map((metric: any, index: number) => {
         return `
@@ -29,13 +29,11 @@ Oxygen Saturation: ${metric.oxygen_saturation ?? 'N/A'}%
 Respiratory Rate: ${metric.respiratory_rate ?? 'N/A'} breaths/min
 Temperature: ${metric.temperature ?? 'N/A'}°F
 Date: ${metric.updated_at ?? 'N/A'}
-
-[Provide concise medical analysis under 150 characters]
         `;
       })
       .join('\n');
 
-    // ✅ Final prompt (never empty)
+    // ✅ Prompt
     const prompt = `
 You are a medical assistant.
 
@@ -51,55 +49,32 @@ ${entries}
 Also include a final summary with recommendations.
     `.trim();
 
-    // ✅ Debug once (remove later)
-    // console.log("PROMPT:", prompt);
-
-    // ✅ Cohere Chat API call (correct format)
+    // ✅ Gemini API call
     const response = await axios.post(
-      'https://api.cohere.ai/v1/chat',
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.COHERE_API_KEY}`,
       {
-        model: 'command-a-03-2025',
-        messages: [
+        contents: [
           {
-            role: 'system',
-            content: [
+            parts: [
               {
-                type: 'text',
-                text: 'You analyze health vitals and return structured HTML output.',
-              },
-            ],
-          },
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
                 text: prompt,
               },
             ],
           },
         ],
-        temperature: 0.7,
-        max_tokens: 500,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.COHERE_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
       }
     );
 
-    // ✅ Safe extraction (no crash if undefined)
+    // ✅ Extract response safely
     const result =
-      response.data?.message?.content?.[0]?.text ||
+      response.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
       'No response generated';
 
     return NextResponse.json({ result }, { status: 200 });
 
   } catch (error: any) {
     console.error(
-      'Cohere Chat API Error:',
+      'Gemini API Error:',
       error.response?.data || error.message
     );
 
